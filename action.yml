@@ -1,0 +1,63 @@
+name: Settlens x402 Assessment
+description: Run x402 V2 security and conformance checks with verifiable evidence.
+branding:
+  icon: eye
+  color: green
+inputs:
+  config:
+    description: Path to a Settlens JSON configuration file.
+    required: false
+    default: settlens.config.json
+  output:
+    description: Directory for JSON, HTML and SARIF evidence reports.
+    required: false
+    default: reports
+  formats:
+    description: Comma-separated report formats.
+    required: false
+    default: json,html,sarif
+  fail-on:
+    description: Minimum failing severity that blocks CI.
+    required: false
+    default: high
+  allowed-hosts:
+    description: Comma-separated exact hostnames allowed to receive custom headers.
+    required: false
+    default: ""
+outputs:
+  report-directory:
+    description: Directory containing the generated evidence.
+    value: ${{ steps.assess.outputs.report-directory }}
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+      with:
+        node-version: "24"
+        package-manager-cache: false
+
+    - name: Install locked production dependencies
+      shell: bash
+      run: npm ci --prefix "$GITHUB_ACTION_PATH" --omit=dev --ignore-scripts
+
+    - name: Run Settlens
+      id: assess
+      shell: bash
+      env:
+        SETTLENS_ACTION_CONFIG: ${{ inputs.config }}
+        SETTLENS_ACTION_OUTPUT: ${{ inputs.output }}
+        SETTLENS_ACTION_FORMATS: ${{ inputs.formats }}
+        SETTLENS_ACTION_FAIL_ON: ${{ inputs.fail-on }}
+        SETTLENS_ALLOWED_HOSTS: ${{ inputs.allowed-hosts }}
+      run: |
+        # bash runs with -e: capture the gate status so the output is always set.
+        status=0
+        node "$GITHUB_ACTION_PATH/src/cli.js" \
+          check \
+          --config "$SETTLENS_ACTION_CONFIG" \
+          --out "$SETTLENS_ACTION_OUTPUT" \
+          --format "$SETTLENS_ACTION_FORMATS" \
+          --fail-on "$SETTLENS_ACTION_FAIL_ON" || status=$?
+        printf 'report-directory=%s\n' "$SETTLENS_ACTION_OUTPUT" >> "$GITHUB_OUTPUT"
+        exit "$status"

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "settlens": {
+      "command": "node",
+      "args": ["/absolute/path/to/settlens/src/cli.js", "mcp"]
+    }
+  }
+}

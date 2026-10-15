@@ -1,0 +1,46 @@
+x-settlens-base: &settlens-base
+  image: settlens:0.2.0
+  build:
+    context: .
+    dockerfile: Dockerfile
+  pull_policy: never
+  user: "1000:1000"
+  read_only: true
+  init: true
+  restart: "no"
+  cap_drop:
+    - ALL
+  security_opt:
+    - no-new-privileges:true
+  pids_limit: 64
+  mem_limit: 256m
+  cpus: 0.50
+  stop_grace_period: 5s
+  ulimits:
+    nofile:
+      soft: 1024
+      hard: 1024
+    nproc: 64
+  environment:
+    NO_COLOR: "1"
+  volumes:
+    - ./config:/workspace/config:ro
+    - ./evidence:/workspace/reports:rw
+  tmpfs:
+    - /tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777
+  logging:
+    driver: local
+    options:
+      max-size: 10m
+      max-file: "3"
+
+services:
+  settlens:
+    <<: *settlens-base
+    network_mode: none
+
+  settlens-scan:
+    <<: *settlens-base
+    profiles:
+      - scan
+    network_mode: bridge

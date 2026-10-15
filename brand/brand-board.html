@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Settlens — Brand board</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="tokens.css">
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--settlens-ink);
+        background: var(--settlens-cloud);
+        font-family: var(--settlens-font-sans);
+      }
+      main { width: min(1180px, calc(100% - 40px)); margin: 20px auto 72px; }
+      .hero {
+        min-height: 620px;
+        padding: 56px;
+        overflow: hidden;
+        position: relative;
+        border-radius: 28px;
+        color: white;
+        background: var(--settlens-ink);
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 520px;
+        height: 520px;
+        right: -160px;
+        top: -180px;
+        border: 1px solid rgb(38 230 200 / 22%);
+        border-radius: 50%;
+        box-shadow: 0 0 0 90px rgb(38 230 200 / 3%), 0 0 0 180px rgb(38 230 200 / 2%);
+      }
+      .logo { width: 245px; }
+      .eyebrow {
+        margin-top: 115px;
+        color: var(--settlens-mint);
+        font-family: var(--settlens-font-mono);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .16em;
+      }
+      h1 {
+        max-width: 780px;
+        margin: 24px 0 18px;
+        font-size: clamp(48px, 7vw, 86px);
+        line-height: .98;
+        letter-spacing: -.055em;
+      }
+      .hero p { max-width: 670px; color: #a9b8c8; font-size: 20px; line-height: 1.6; }
+      .button {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 14px 19px;
+        border-radius: 12px;
+        color: var(--settlens-ink);
+        background: var(--settlens-mint);
+        font-weight: 750;
+      }
+      section {
+        margin-top: 20px;
+        padding: 42px;
+        border: 1px solid var(--settlens-border);
+        border-radius: 24px;
+        background: white;
+      }
+      h2 { margin: 0 0 10px; font-size: 30px; letter-spacing: -.035em; }
+      .intro { margin: 0 0 32px; color: var(--settlens-slate); line-height: 1.6; }
+      .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+      .swatch { overflow: hidden; border: 1px solid var(--settlens-border); border-radius: 16px; }
+      .color { height: 130px; }
+      .meta { padding: 15px; font-size: 13px; }
+      .meta strong { display: block; margin-bottom: 5px; }
+      code { color: var(--settlens-slate); font-family: var(--settlens-font-mono); }
+      .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+      .logo-card {
+        min-height: 240px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--settlens-border);
+        border-radius: 18px;
+        background: var(--settlens-cloud);
+      }
+      .logo-card.dark { background: var(--settlens-ink); }
+      .logo-card img { width: min(320px, 78%); }
+      .type-sample { display: grid; grid-template-columns: 1.25fr .75fr; gap: 18px; }
+      .type-block { padding: 28px; border-radius: 18px; background: var(--settlens-cloud); }
+      .display { margin: 0; font-size: 48px; font-weight: 700; letter-spacing: -.045em; }
+      .mono { font-family: var(--settlens-font-mono); color: var(--settlens-slate); }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 6px 8px 0 0;
+        padding: 9px 12px;
+        border: 1px solid var(--settlens-border);
+        border-radius: 999px;
+        font-family: var(--settlens-font-mono);
+        font-size: 12px;
+      }
+      .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--settlens-mint); }
+      @media (max-width: 780px) {
+        main { width: min(100% - 20px, 1180px); margin-top: 10px; }
+        .hero, section { padding: 28px; }
+        .hero { min-height: 600px; }
+        .eyebrow { margin-top: 130px; }
+        .grid { grid-template-columns: 1fr 1fr; }
+        .logo-grid, .type-sample { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="hero">
+        <img class="logo" src="assets/logo-horizontal-white.svg" alt="Settlens">
+        <div class="eyebrow">AGENTIC PAYMENT ASSURANCE</div>
+        <h1>Ship agentic payments without blind spots.</h1>
+        <p>Test x402 and emerging payment rails for protocol drift, replay, binding and settlement failures — before users find them.</p>
+        <span class="button">Request a private assessment</span>
+      </div>
+
+      <section>
+        <h2>The identity</h2>
+        <p class="intro">A lens into settlement. Precise, calm and evidence-led — built like a serious security company, not a speculative crypto project.</p>
+        <div class="logo-grid">
+          <div class="logo-card"><img src="assets/logo-horizontal.svg" alt="Settlens dark logo"></div>
+          <div class="logo-card dark"><img src="assets/logo-horizontal-white.svg" alt="Settlens white logo"></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Color system</h2>
+        <p class="intro">Ink establishes trust. Mint identifies verified settlement. Blue supports interaction; amber and coral carry meaning only when risk is present.</p>
+        <div class="grid">
+          <div class="swatch"><div class="color" style="background:#07111f"></div><div class="meta"><strong>Ink</strong><code>#07111F</code></div></div>
+          <div class="swatch"><div class="color" style="background:#26e6c8"></div><div class="meta"><strong>Signal Mint</strong><code>#26E6C8</code></div></div>
+          <div class="swatch"><div class="color" style="background:#4c7dff"></div><div class="meta"><strong>Trust Blue</strong><code>#4C7DFF</code></div></div>
+          <div class="swatch"><div class="color" style="background:#f4f7fb"></div><div class="meta"><strong>Cloud</strong><code>#F4F7FB</code></div></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Type & product language</h2>
+        <p class="intro">Inter carries the brand and interface; JetBrains Mono identifies protocol evidence, test cases and machine-readable facts.</p>
+        <div class="type-sample">
+          <div class="type-block">
+            <p class="display">See what settles.</p>
+            <p>Security testing and continuous assurance for agentic payments.</p>
+          </div>
+          <div class="type-block mono">
+            <p>TEST / PAYMENT_BINDING</p>
+            <p>RESULT / VERIFIED</p>
+            <p>RAIL / X402</p>
+            <p>EVIDENCE / REPRODUCIBLE</p>
+          </div>
+        </div>
+        <div style="margin-top:22px">
+          <span class="pill"><span class="dot"></span> deterministic</span>
+          <span class="pill"><span class="dot"></span> independent</span>
+          <span class="pill"><span class="dot"></span> reproducible</span>
+          <span class="pill"><span class="dot"></span> authorized</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

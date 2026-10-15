@@ -1,0 +1,221 @@
+[
+  {
+    "name": "Approved example",
+    "expected": "pay",
+    "arguments": {
+      "payment_required": {
+        "x402Version": 2,
+        "error": "PAYMENT-SIGNATURE header is required",
+        "resource": {
+          "url": "https://api.example.com/premium-data",
+          "description": "Access to premium market data",
+          "mimeType": "application/json"
+        },
+        "accepts": [
+          {
+            "scheme": "exact",
+            "network": "eip155:84532",
+            "amount": "10000",
+            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "payTo": "0x209693Bc6afc0C5328bA36FaF03C514EF312287C",
+            "maxTimeoutSeconds": 60,
+            "extra": {
+              "name": "USDC",
+              "version": "2"
+            }
+          }
+        ]
+      },
+      "resource_url": "https://api.example.com/premium-data",
+      "policy": {
+        "pay_to": [
+          "0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+        ],
+        "assets": [
+          "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+        ],
+        "networks": [
+          "eip155:84532"
+        ],
+        "schemes": [
+          "exact"
+        ],
+        "max_amount": "10000"
+      }
+    }
+  },
+  {
+    "name": "Price doubles",
+    "expected": "do_not_pay",
+    "arguments": {
+      "payment_required": {
+        "x402Version": 2,
+        "resource": {
+          "url": "https://api.example.com/premium-data",
+          "description": "Access to premium market data",
+          "mimeType": "application/json"
+        },
+        "accepts": [
+          {
+            "scheme": "exact",
+            "network": "eip155:84532",
+            "amount": "20000",
+            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "payTo": "0x209693Bc6afc0C5328bA36FaF03C514EF312287C",
+            "maxTimeoutSeconds": 60,
+            "extra": {
+              "name": "USDC",
+              "version": "2"
+            }
+          }
+        ]
+      },
+      "resource_url": "https://api.example.com/premium-data",
+      "policy": {
+        "pay_to": [
+          "0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+        ],
+        "assets": [
+          "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+        ],
+        "networks": [
+          "eip155:84532"
+        ],
+        "schemes": [
+          "exact"
+        ],
+        "max_amount": "10000"
+      }
+    }
+  },
+  {
+    "name": "Recipient changes",
+    "expected": "do_not_pay",
+    "arguments": {
+      "payment_required": {
+        "x402Version": 2,
+        "resource": {
+          "url": "https://api.example.com/premium-data",
+          "description": "Access to premium market data",
+          "mimeType": "application/json"
+        },
+        "accepts": [
+          {
+            "scheme": "exact",
+            "network": "eip155:84532",
+            "amount": "10000",
+            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "payTo": "0x309693Bc6afc0C5328bA36FaF03C514EF312287C",
+            "maxTimeoutSeconds": 60,
+            "extra": {
+              "name": "USDC",
+              "version": "2"
+            }
+          }
+        ]
+      },
+      "resource_url": "https://api.example.com/premium-data",
+      "policy": {
+        "pay_to": [
+          "0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+        ],
+        "assets": [
+          "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+        ],
+        "networks": [
+          "eip155:84532"
+        ],
+        "schemes": [
+          "exact"
+        ],
+        "max_amount": "10000"
+      }
+    }
+  },
+  {
+    "name": "Resource changes",
+    "expected": "do_not_pay",
+    "arguments": {
+      "payment_required": {
+        "x402Version": 2,
+        "resource": {
+          "url": "https://api.example.com/other-data",
+          "description": "Access to premium market data",
+          "mimeType": "application/json"
+        },
+        "accepts": [
+          {
+            "scheme": "exact",
+            "network": "eip155:84532",
+            "amount": "10000",
+            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "payTo": "0x209693Bc6afc0C5328bA36FaF03C514EF312287C",
+            "maxTimeoutSeconds": 60,
+            "extra": {
+              "name": "USDC",
+              "version": "2"
+            }
+          }
+        ]
+      },
+      "resource_url": "https://api.example.com/premium-data",
+      "policy": {
+        "pay_to": [
+          "0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+        ],
+        "assets": [
+          "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+        ],
+        "networks": [
+          "eip155:84532"
+        ],
+        "schemes": [
+          "exact"
+        ],
+        "max_amount": "10000"
+      }
+    }
+  },
+  {
+    "name": "Recipient policy missing",
+    "expected": "review",
+    "arguments": {
+      "payment_required": {
+        "x402Version": 2,
+        "error": "PAYMENT-SIGNATURE header is required",
+        "resource": {
+          "url": "https://api.example.com/premium-data",
+          "description": "Access to premium market data",
+          "mimeType": "application/json"
+        },
+        "accepts": [
+          {
+            "scheme": "exact",
+            "network": "eip155:84532",
+            "amount": "10000",
+            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "payTo": "0x209693Bc6afc0C5328bA36FaF03C514EF312287C",
+            "maxTimeoutSeconds": 60,
+            "extra": {
+              "name": "USDC",
+              "version": "2"
+            }
+          }
+        ]
+      },
+      "resource_url": "https://api.example.com/premium-data",
+      "policy": {
+        "assets": [
+          "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+        ],
+        "networks": [
+          "eip155:84532"
+        ],
+        "schemes": [
+          "exact"
+        ],
+        "max_amount": "10000"
+      }
+    }
+  }
+]

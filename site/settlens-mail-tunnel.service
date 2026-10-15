@@ -1,0 +1,24 @@
+[Unit]
+Description=Settlens restricted SSH mail tunnel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssh -F /dev/null -N -i /opt/settlens-site/mail-tunnel/id_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/opt/settlens-site/mail-tunnel/known_hosts -o ExitOnForwardFailure=yes -o ConnectTimeout=10 -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o StreamLocalBindUnlink=yes -L /opt/settlens-site/data/mail-relay.sock:127.0.0.1:3339 settlens-relay@195.35.28.51
+ExecStartPost=/bin/sh -c 'for attempt in 1 2 3 4 5 6 7 8 9 10; do if test -S /opt/settlens-site/data/mail-relay.sock; then chmod 600 /opt/settlens-site/data/mail-relay.sock; chown 1000:1000 /opt/settlens-site/data/mail-relay.sock; exit 0; fi; sleep 1; done; exit 1'
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ReadWritePaths=/opt/settlens-site/data
+RestrictAddressFamilies=AF_INET AF_UNIX
+MemoryMax=64M
+TasksMax=8
+LimitNOFILE=64
+
+[Install]
+WantedBy=multi-user.target

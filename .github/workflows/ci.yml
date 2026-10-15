@@ -1,0 +1,165 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node.js ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "20"
+          - "22"
+          - "24"
+    steps:
+      - name: Check out source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: ${{ matrix.node }}
+          package-manager-cache: false
+
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Check syntax
+        run: npm run check
+
+      - name: Run tests
+        run: npm test
+
+  evidence:
+    name: Reproducible evidence
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Enforce coverage thresholds
+        run: npm run quality
+
+      - name: Audit dependencies
+        run: |
+          mkdir -p reports
+          npm audit --audit-level=high --json > reports/npm-audit.json
+
+      - name: Inspect release contents
+        run: npm pack --dry-run --json > reports/npm-pack.json
+
+      - name: Generate CycloneDX SBOM
+        run: npm sbom --sbom-format cyclonedx > reports/sbom.cdx.json
+
+      - name: Start controlled x402 demonstration
+        run: |
+          npm run demo:server > /tmp/settlens-demo.log 2>&1 &
+          printf '%s\n' "$!" > /tmp/settlens-demo.pid
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4402/health > /dev/null; then
+              exit 0
+            fi
+            sleep 0.25
+          done
+          cat /tmp/settlens-demo.log
+          exit 1
+
+      - name: Verify compliant resource and facilitator
+        run: |
+          node src/cli.js check \
+            --config settlens.config.example.json \
+            --out reports/secure \
+            --format json,html,sarif
+          report_path="$(find reports/secure -name '*.json' -print -quit)"
+          node src/cli.js verify-report "$report_path"
+
+      - name: Prove critical bypass detection
+        run: |
+          set +e
+          node src/cli.js scan http://127.0.0.1:4402/bypass \
+            --active \
+            --authorized \
+            --authorization-ref CI-CONTROLLED-DEMO-001 \
+            --repeat 1 \
+            --out reports/bypass \
+            --format json,html,sarif
+          scan_status="$?"
+          set -e
+          if [ "$scan_status" -ne 1 ]; then
+            printf 'Expected security-gate exit 1, received %s\n' "$scan_status"
+            exit 1
+          fi
+          report_path="$(find reports/bypass -name '*.json' -print -quit)"
+          node src/cli.js verify-report "$report_path"
+
+      - name: Hash the evidence bundle
+        if: always()
+        run: |
+          mkdir -p reports
+          find reports -type f -print0 \
+            | sort -z \
+            | xargs -0 sha256sum > /tmp/settlens-sha256sums
+          mv /tmp/settlens-sha256sums reports/SHA256SUMS
+
+      - name: Upload SARIF to code scanning
+        if: >-
+          always() &&
+          hashFiles('reports/**/*.sarif') != '' &&
+          (github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository)
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@7188fc363630916deb702c7fdcf4e481b751f97a
+        with:
+          sarif_file: reports
+
+      - name: Upload evidence bundle
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: settlens-evidence
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Stop demonstration
+        if: always()
+        run: |
+          if [ -f /tmp/settlens-demo.pid ]; then
+            kill "$(cat /tmp/settlens-demo.pid)" 2>/dev/null || true
+          fi
+
+  container:
+    name: Build pinned non-root container
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Build image
+        run: docker build --tag settlens:test .
+
+      - name: Smoke-test image
+        run: docker run --rm settlens:test --version

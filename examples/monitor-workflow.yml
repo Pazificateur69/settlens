@@ -1,0 +1,54 @@
+name: Settlens continuous monitoring
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: settlens-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      # This example assumes the private pilot source is checked into this repository.
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - name: Restore the latest journal
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          mkdir -p .settlens
+          artifact_id=$(gh api "repos/$REPOSITORY/actions/artifacts?name=settlens-monitor-journal&per_page=20" --jq '.artifacts | map(select(.expired == false)) | sort_by(.created_at) | last | .id // empty')
+          if [ -n "$artifact_id" ]; then
+            gh api "repos/$REPOSITORY/actions/artifacts/$artifact_id/zip" > "$RUNNER_TEMP/settlens-journal.zip"
+            unzip -p "$RUNNER_TEMP/settlens-journal.zip" monitor.json > .settlens/monitor.json
+          fi
+      - name: Monitor and sign alerts
+        env:
+          SETTLENS_ALLOWED_HOSTS: ${{ vars.SETTLENS_ALLOWED_HOSTS }}
+          MONITOR_WEBHOOK_URL: ${{ secrets.MONITOR_WEBHOOK_URL }}
+          MONITOR_WEBHOOK_SECRET: ${{ secrets.MONITOR_WEBHOOK_SECRET }}
+        shell: bash
+        run: |
+          args=(monitor --config settlens.config.json --history .settlens/monitor.json)
+          if [ -n "$MONITOR_WEBHOOK_URL" ]; then
+            args+=(--webhook "$MONITOR_WEBHOOK_URL" --webhook-secret-env MONITOR_WEBHOOK_SECRET)
+          fi
+          node src/cli.js "${args[@]}"
+      - name: Persist journal even when a change blocks the job
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: settlens-monitor-journal
+          path: .settlens/monitor.json
+          if-no-files-found: warn
+          retention-days: 90

@@ -1,0 +1,46 @@
+# Production on settlens-host: build context /opt/settlens-site (see site/DEPLOY.md), nginx in front on 127.0.0.1:3318.
+services:
+  settlens-site:
+    build:
+      context: ..
+      dockerfile: site/Dockerfile
+    image: settlens-site:0.5.0
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      # nginx overwrites X-Forwarded-For with $remote_addr, so its last entry is the real client address.
+      TRUST_PROXY: "1"
+      PILOT_STORE: /data/pilot-leads.jsonl
+      MONITOR_STORE: /data/monitor.json
+    volumes:
+      - /opt/settlens-site/data:/data
+    ports:
+      - "127.0.0.1:3318:8080"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 256m
+    cpus: 0.50
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m
+    # No nproc ulimit: RLIMIT_NPROC counts every thread of uid 1000 on the host, other containers
+    # included; pids_limit already bounds this container.
+    ulimits:
+      nofile: { soft: 1024, hard: 1024 }
+    # An init process forwards SIGTERM, so a stop does not wait 10 s for a SIGKILL mid-write.
+    init: true
+    stop_grace_period: 10s
+    # restart: unless-stopped only acts on exit; this catches a hung event loop.
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    # Bounded logs on the shared host.
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: "3"

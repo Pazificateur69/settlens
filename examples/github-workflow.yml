@@ -1,0 +1,46 @@
+name: Settlens
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  x402-assessment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      # Until Settlens is published as a remote action, this repository can run
+      # its local composite action directly.
+      - name: Assess x402 endpoints
+        uses: ./
+        with:
+          config: settlens.config.json
+          output: reports
+          formats: json,html,sarif
+          fail-on: high
+          # Set this from a repository variable when the config uses secrets.
+          allowed-hosts: ${{ vars.SETTLENS_ALLOWED_HOSTS }}
+
+      - name: Upload SARIF to code scanning
+        if: >-
+          always() &&
+          hashFiles('reports/**/*.sarif') != '' &&
+          (github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository)
+        uses: github/codeql-action/upload-sarif@7188fc363630916deb702c7fdcf4e481b751f97a
+        with:
+          sarif_file: reports
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: settlens-reports
+          path: reports/
+          if-no-files-found: error
+          retention-days: 30

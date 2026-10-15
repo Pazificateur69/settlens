@@ -1,0 +1,54 @@
+{
+  "name": "settlens",
+  "version": "0.5.0",
+  "description": "Security and conformance checks for agentic payment endpoints.",
+  "type": "module",
+  "private": true,
+  "files": [
+    "src/",
+    "schemas/",
+    "demo/",
+    "docs/",
+    "SECURITY.md",
+    "Dockerfile",
+    "compose.plesk.yml",
+    "action.yml",
+    "examples/github-workflow.yml",
+    "examples/monitor-workflow.yml",
+    "examples/agent-policy.json",
+    "examples/preflight-client.mjs",
+    "scripts/",
+    "settlens.config.example.json",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "bin": {
+    "settlens": "./src/cli.js"
+  },
+  "scripts": {
+    "site:server": "node site/server.js",
+    "site:build": "node site/build.js",
+    "site:dev": "node site/build.js --allow-missing=pending && node site/server.js",
+    "site:check": "node --check site/server.js && node --check site/build.js && node --check site/src/assets/site.js",
+    "check": "node scripts/check-syntax.mjs",
+    "demo:server": "node demo/server.js",
+    "settlens": "node src/cli.js",
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=85 --test-coverage-branches=60 --test-coverage-functions=90",
+    "quality": "npm run check && npm run test:coverage",
+    "conformance": "node scripts/conformance.mjs"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "@noble/curves": "2.2.0",
+    "@noble/hashes": "2.2.0",
+    "@x402/core": "2.28.0",
+    "nodemailer": "10.1.1",
+    "proper-lockfile": "4.1.2"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0"
+  }
+}

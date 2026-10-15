@@ -1,0 +1,29 @@
+[Unit]
+Description=Settlens restricted owner email relay
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+ExecStart=/usr/bin/python3 /opt/settlens-mail-relay/mail-relay.py
+LoadCredential=relay-token:/opt/settlens-mail-relay/relay-token
+LoadCredential=tls-key:/opt/settlens-mail-relay/relay-key.pem
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_INET AF_UNIX
+MemoryMax=96M
+TasksMax=8
+LimitNOFILE=64
+
+[Install]
+WantedBy=multi-user.target

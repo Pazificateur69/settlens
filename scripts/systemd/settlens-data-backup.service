@@ -1,0 +1,10 @@
+[Unit]
+Description=Settlens encrypted data backup
+OnFailure=settlens-ops-watchdog.service
+
+[Service]
+Type=oneshot
+UMask=0077
+ExecStart=/opt/settlens-site/scripts/ops-backup.sh
+TimeoutStartSec=120
+NoNewPrivileges=true

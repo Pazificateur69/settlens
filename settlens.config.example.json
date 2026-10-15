@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "failOn": "high",
+  "output": "reports",
+  "defaults": {
+    "method": "GET",
+    "timeoutMs": 8000,
+    "repeat": 2
+  },
+  "targets": [
+    {
+      "name": "local-secure-demo",
+      "url": "http://127.0.0.1:4402/secure",
+      "facilitator": "http://127.0.0.1:4402/facilitator",
+      "expected": {
+        "resourceUrl": "http://127.0.0.1:4402/secure",
+        "schemes": [
+          "exact"
+        ],
+        "networks": [
+          "eip155:84532"
+        ],
+        "payTo": [
+          "0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+        ],
+        "assets": [
+          "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+        ],
+        "maxAmount": "10000"
+      }
+    }
+  ]
+}

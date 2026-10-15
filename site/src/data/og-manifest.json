@@ -1,0 +1,230 @@
+{
+  "about": {
+    "path": "/about",
+    "title": "About Settlens: independent x402 payment assurance"
+  },
+  "blog": {
+    "path": "/blog",
+    "title": "Blog: x402 and agentic payment security"
+  },
+  "blog--agentic-payments-what-breaks": {
+    "path": "/blog/agentic-payments-what-breaks",
+    "title": "Agentic payments are moving real money. Here's what breaks."
+  },
+  "blog--check-x402-payment-policy": {
+    "path": "/blog/check-x402-payment-policy",
+    "title": "Test x402 payment terms before a release"
+  },
+  "blog--detecting-x402-payment-drift": {
+    "path": "/blog/detecting-x402-payment-drift",
+    "title": "Detecting x402 payment drift: price, recipient, network and asset changes"
+  },
+  "blog--how-to-test-x402-endpoint": {
+    "path": "/blog/how-to-test-x402-endpoint",
+    "title": "How to test an x402 payment endpoint: a practical checklist"
+  },
+  "blog--mcp-verify-before-paying": {
+    "path": "/blog/mcp-verify-before-paying",
+    "title": "Verify before paying: a preflight check for AI agents on x402"
+  },
+  "blog--signed-evidence-for-payment-assessments": {
+    "path": "/blog/signed-evidence-for-payment-assessments",
+    "title": "Signed evidence for payment assessments: digests, ed25519 and offline verification"
+  },
+  "blog--x402-security-failure-modes": {
+    "path": "/blog/x402-security-failure-modes",
+    "title": "x402 security: the payment failure modes every implementation should test"
+  },
+  "changelog": {
+    "path": "/changelog",
+    "title": "Settlens changelog: releases and updates"
+  },
+  "contact": {
+    "path": "/contact",
+    "title": "Contact Settlens and request a pilot"
+  },
+  "cookies": {
+    "path": "/cookies",
+    "title": "Cookie notice"
+  },
+  "docs": {
+    "path": "/docs",
+    "title": "Documentation"
+  },
+  "docs--api": {
+    "path": "/docs/api",
+    "title": "HTTP scan API"
+  },
+  "docs--checks": {
+    "path": "/docs/checks",
+    "title": "Check catalog"
+  },
+  "docs--cli": {
+    "path": "/docs/cli",
+    "title": "CLI reference"
+  },
+  "docs--configuration": {
+    "path": "/docs/configuration",
+    "title": "Configuration"
+  },
+  "docs--evidence": {
+    "path": "/docs/evidence",
+    "title": "Evidence"
+  },
+  "docs--github-action": {
+    "path": "/docs/github-action",
+    "title": "GitHub Action"
+  },
+  "docs--mcp": {
+    "path": "/docs/mcp",
+    "title": "MCP server reference"
+  },
+  "docs--methodology": {
+    "path": "/docs/methodology",
+    "title": "Assessment methodology"
+  },
+  "docs--monitor": {
+    "path": "/docs/monitor",
+    "title": "Monitor"
+  },
+  "docs--quickstart": {
+    "path": "/docs/quickstart",
+    "title": "Quickstart"
+  },
+  "docs--reports": {
+    "path": "/docs/reports",
+    "title": "Reports"
+  },
+  "docs--security": {
+    "path": "/docs/security",
+    "title": "Security model"
+  },
+  "faq": {
+    "path": "/faq",
+    "title": "Settlens FAQ: x402 assurance, MCP, safety and data"
+  },
+  "home": {
+    "path": "/",
+    "title": "x402 security and testing for agentic payments"
+  },
+  "learn": {
+    "path": "/learn",
+    "title": "Learn x402: agentic payment security guides"
+  },
+  "learn--agent-spending-policy": {
+    "path": "/learn/agent-spending-policy",
+    "title": "Spending policies for AI agents that pay with x402"
+  },
+  "learn--eip-3009": {
+    "path": "/learn/eip-3009",
+    "title": "EIP-3009 and EIP-712 in x402 payments"
+  },
+  "learn--glossary": {
+    "path": "/learn/glossary",
+    "title": "x402 and agentic payments glossary"
+  },
+  "learn--what-is-x402": {
+    "path": "/learn/what-is-x402",
+    "title": "What is x402?"
+  },
+  "learn--x402-error-codes": {
+    "path": "/learn/x402-error-codes",
+    "title": "x402 error codes reference"
+  },
+  "learn--x402-facilitator-security": {
+    "path": "/learn/x402-facilitator-security",
+    "title": "x402 facilitator security"
+  },
+  "learn--x402-security-checklist": {
+    "path": "/learn/x402-security-checklist",
+    "title": "x402 security checklist"
+  },
+  "learn--x402-v1-to-v2-migration": {
+    "path": "/learn/x402-v1-to-v2-migration",
+    "title": "Migrating from x402 V1 to V2"
+  },
+  "learn--x402-v2-headers": {
+    "path": "/learn/x402-v2-headers",
+    "title": "x402 V2 headers: PAYMENT-REQUIRED, PAYMENT-SIGNATURE and PAYMENT-RESPONSE"
+  },
+  "legal": {
+    "path": "/legal",
+    "title": "Legal notice (Mentions légales)"
+  },
+  "mcp": {
+    "path": "/mcp",
+    "title": "x402 MCP server: AI agent payment preflight"
+  },
+  "pricing": {
+    "path": "/pricing",
+    "title": "Pricing: pilot, team and assurance engagements"
+  },
+  "privacy": {
+    "path": "/privacy",
+    "title": "Privacy notice"
+  },
+  "product": {
+    "path": "/product",
+    "title": "x402 assurance platform: CLI, CI, monitor and MCP"
+  },
+  "product--assess": {
+    "path": "/product/assess",
+    "title": "x402 endpoint testing: passive scan and probe"
+  },
+  "product--ci": {
+    "path": "/product/ci",
+    "title": "x402 CI gate: GitHub Action with SARIF"
+  },
+  "product--evidence": {
+    "path": "/product/evidence",
+    "title": "Signed x402 evidence: ed25519 report attestations"
+  },
+  "product--monitor": {
+    "path": "/product/monitor",
+    "title": "x402 endpoint monitoring and drift alerts"
+  },
+  "product--verify": {
+    "path": "/product/verify",
+    "title": "Verify x402 payments offline: EIP-3009 and Solana"
+  },
+  "security": {
+    "path": "/security",
+    "title": "Security and trust center"
+  },
+  "terms": {
+    "path": "/terms",
+    "title": "Terms of use"
+  },
+  "tools": {
+    "path": "/tools",
+    "title": "Free x402 tools: checker and EIP-3009 verifier"
+  },
+  "tools--eip-3009-verifier": {
+    "path": "/tools/eip-3009-verifier",
+    "title": "Verify an EIP-3009 payment signature"
+  },
+  "tools--x402-checker": {
+    "path": "/tools/x402-checker",
+    "title": "Check an x402 payment request before you pay"
+  },
+  "use-cases": {
+    "path": "/use-cases",
+    "title": "x402 payment security use cases"
+  },
+  "use-cases--agent-builders": {
+    "path": "/use-cases/agent-builders",
+    "title": "x402 spending guardrails for AI agent builders"
+  },
+  "use-cases--api-sellers": {
+    "path": "/use-cases/api-sellers",
+    "title": "x402 API sellers: test your paid endpoints"
+  },
+  "use-cases--facilitators": {
+    "path": "/use-cases/facilitators",
+    "title": "x402 facilitator testing: /supported and /verify"
+  },
+  "use-cases--security-teams": {
+    "path": "/use-cases/security-teams",
+    "title": "Independent evidence for x402 payment audits"
+  }
+}

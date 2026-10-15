@@ -1,0 +1,9 @@
+[Unit]
+Description=Settlens operational health and owner alerts
+
+[Service]
+Type=oneshot
+UMask=0077
+ExecStart=/usr/bin/python3 /opt/settlens-site/scripts/ops-watchdog.py
+TimeoutStartSec=60
+NoNewPrivileges=true

@@ -1,0 +1,23 @@
+.git
+.github
+**/.env*
+!**/.env.example
+.settlens
+brand
+data
+docs
+examples/*
+!examples/github-workflow.yml
+!examples/monitor-workflow.yml
+!examples/agent-policy.json
+!examples/preflight-client.mjs
+node_modules
+reports
+test
+*.log
+site/public
+site/.public.tmp-*
+site/tools
+
+# Host-only restricted SSH tunnel credentials; never enter the build context.
+mail-tunnel/

@@ -1,0 +1,5 @@
+const escapeHtml = (value) => String(value ?? "").replace(/[&<>"\']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "\'": "&#39;" })[char]);
+export function renderHistoryHtml(history) {
+  const escape = escapeHtml;
+  return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Settlens monitor history</title><body><h1>Settlens monitor history</h1><p>Passive observations. No on-chain checks or settlement verification. Fingerprints detect edits, not authorship.</p>${history.map((entry) => `<section><h2>${escape(entry.observedAt)}</h2><p>SHA-256: ${escape(entry.digest)}</p>${entry.runs.map((run) => `<h3>${escape(run.method)} ${escape(run.url)}</h3><p>${run.firstRun ? "First observation" : `${run.alerts.length} changes`}</p><ul>${run.alerts.map((alert) => `<li>${escape(alert.severity)}: ${escape(alert.id)} — ${escape(alert.title)}<p>${escape(alert.recommendation ?? "Review the endpoint configuration.")}</p></li>`).join("")}</ul>`).join("")}</section>`).join("")}</body></html>\n`;
+}
