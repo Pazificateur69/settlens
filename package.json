@@ -42,7 +42,7 @@
     "node": ">=20.19"
   },
   "dependencies": {
-    "@noble/curves": "2.2.0",
+    "@noble/curves": "2.4.0",
     "@noble/hashes": "2.2.0",
     "@x402/core": "2.28.0",
     "nodemailer": "10.1.1",
