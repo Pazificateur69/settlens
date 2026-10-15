@@ -69,6 +69,7 @@ function footer(page, year) {
       </div>`,
       )}</nav>
     </div>
+    <a class="site-footer__badge" href="https://devhunt.org/tool/settlens" target="_blank" rel="noopener noreferrer" aria-label="View Settlens on DevHunt (opens in a new tab)"><img src="/assets/devhunt-badge.svg" alt="Settlens — Featured on DevHunt" width="220" height="54" loading="lazy"></a>
     <div class="site-footer__bottom">
       <p>© ${year} ${site.name}. ${site.legal.offering} is offered by ${site.legal.tradeName}, the trade name of ${site.legal.publisher}, a sole proprietor registered in ${site.legal.address.country} (EI, SIREN ${site.legal.siren.replace(/(\d{3})(?=\d)/g, "$1 ")}).</p>
       <p>CLI v${site.version} · <a href="/rss.xml">${icon("rss")}RSS</a></p>

@@ -2726,6 +2726,12 @@ textarea.field__input {
   text-underline-offset: 0.25em;
 }
 
+.site-footer__badge {
+  display: inline-flex;
+  margin-block: var(--space-4) var(--space-2);
+  border-radius: 8px;
+}
+
 .site-footer__bottom {
   display: flex;
   flex-wrap: wrap;
